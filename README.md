@@ -1,7 +1,7 @@
 # Readme
 
 ### [Streamlit Link](https://junhyeok1002-samsung-sec-samsung-securities-project-main-2lkjqy.streamlit.app/)
-위 혹은 아래의 링크를 클릭하면 저희가 구축한 Streamlit Share에 접근할 수 있습니다. 실시간 정보를 가져오는 검색엔진이므로 와이파이가 보장된 환경에서 실행하는 것을 권장드립니다
+위 혹은 아래의 링크를 클릭하면 저희가 구축한 Streamlit Share에 접근할 수 있습니다. 실시간 정보를 가져오는 검색엔진이므로 와이파이가 보장된 환경에서 실행하는 것을 권장드립니다.
 
 (https://junhyeok1002-samsung-sec-samsung-securities-project-main-2lkjqy.streamlit.app/)
 
