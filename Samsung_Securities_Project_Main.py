@@ -251,9 +251,9 @@ if __name__ == "__main__":
                             fig3.update_layout(yaxis_title='단위(%)', height=300, margin=dict(t=0,b=0))
                             st.plotly_chart(fig3)                   
                         st.divider()
-                filtered_news_df, new_event_dict = news(search, event, start_date.strftime("%Y%m%d"),\
-                                                        end_date.strftime("%Y%m%d"), event_dict , page_num = page_num)
-                n_print = news_print(filtered_news_df, name, event_dict, intersect ,top_n = 3)                        
+                    filtered_news_df, new_event_dict = news(search, event, start_date.strftime("%Y%m%d"),\
+                                                            end_date.strftime("%Y%m%d"), event_dict , page_num = page_num)
+                    n_print = news_print(filtered_news_df, name, event_dict, intersect ,top_n = 3)                        
         except : 
             st.warning("기간이 너무 짧아 주가 정보를 불러올 수 없습니다.")
                 
