@@ -2,7 +2,7 @@
 
 ### Streamlit Link
 
-[](https://junhyeok1002-samsung-sec-samsung-securities-project-main-2lkjqy.streamlit.app/)
+(https://junhyeok1002-samsung-sec-samsung-securities-project-main-2lkjqy.streamlit.app/)
 
 ### 제출 파일 설명
 
