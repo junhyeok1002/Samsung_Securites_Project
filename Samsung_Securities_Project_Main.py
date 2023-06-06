@@ -136,126 +136,126 @@ if __name__ == "__main__":
         search_kind = 'Event-Based Search'
         namecode = list(sorted(namecode, key=namecode.get))
         st.header(f"Event Overview") # ; st.markdown("---")
+        try : 
+            # 검색된 주식종목 별로 탭화면 구분
+            st.subheader("Stock List")
+            tabs= st.tabs(namecode)
+            for i, name_code in enumerate(namecode):
+                with tabs[i]:
+                    name, code, event, search, start_date, end_date, able_name, able_code,  intersect= \
+                    search_input(start_date, end_date, name_code, events, kospi200_name_code, kospi200_code_name, event_dict)
+                    stock_df = making_stock_df(start_date.strftime('%Y%m%d'),end_date.strftime('%Y%m%d'),code)
+                    finance_df,status = get_finance_info(code)
 
-        # 검색된 주식종목 별로 탭화면 구분
-        st.subheader("Stock List")
-        tabs= st.tabs(namecode)
-        for i, name_code in enumerate(namecode):
-            with tabs[i]:
-                name, code, event, search, start_date, end_date, able_name, able_code,  intersect= \
-                search_input(start_date, end_date, name_code, events, kospi200_name_code, kospi200_code_name, event_dict)
-                stock_df = making_stock_df(start_date.strftime('%Y%m%d'),end_date.strftime('%Y%m%d'),code)
-                finance_df,status = get_finance_info(code)
-                
-                # 각 주식 종목 별 주가정보/펀더멘탈/재무정보를 탭을 구분하여 보여줌
-                tab1, tab2, tab3 = st.tabs(["주가 정보", "펀더멘탈 지표", "재무 정보"])
-                with tab1 : #주가 정보 탭
-                    st.subheader("Price Information")
-                    
-                    # 현재가, 시가, 고가, 저가, 전일 종가, 외국인소진율, 거래량, 시가총액 표시
-                    a,b,c,d = st.columns(4)
-                    st.markdown(""" <style> [data-testid="stMetricValue"] {font-size: 30px;text-align: center;} </style>""",unsafe_allow_html=True)
-                    with a: 
-                        st.metric(f"{name} ({code})", f"{stock_df.iloc[0]['종가']:,}", 
-                                    f"{stock_df.iloc[0]['종가']-stock_df.iloc[1]['종가']:,} ({stock_df.iloc[0]['등락률']:.2f}%)")
-                        st.metric('전일종가',f"{stock_df.iloc[1]['종가']:,}",f"{stock_df.iloc[1]['종가']-stock_df.iloc[2]['종가']:,}")
-                    with b:
-                        st.metric('시가',f"{stock_df.iloc[0]['시가']:,}",f"{stock_df.iloc[0]['시가']-stock_df.iloc[1]['시가']:,}")
-                        st.metric('외국인소진률',f"{stock_df.iloc[1]['한도소진률']:.2f}%",\
-                                  f"{stock_df.iloc[0]['한도소진률']-stock_df.iloc[1]['한도소진률']:.2f}%")
-                    with c:
-                        st.metric('고가',f"{stock_df.iloc[0]['고가']:,}",f"{stock_df.iloc[0]['고가']-stock_df.iloc[1]['고가']:,}")
-                        st.metric('거래량',f"{stock_df.iloc[1]['거래량']:,}",f"{stock_df.iloc[0]['거래량']-stock_df.iloc[1]['거래량']:,}")
-                    with d:
-                        st.metric('저가',f"{stock_df.iloc[0]['저가']:,}",f"{stock_df.iloc[0]['저가']-stock_df.iloc[1]['저가']:,}")
-                        temp = stock_df.iloc[0]['시가총액']
-                        st.metric('시가총액',f"{format_currency(temp)}")
+                    # 각 주식 종목 별 주가정보/펀더멘탈/재무정보를 탭을 구분하여 보여줌
+                    tab1, tab2, tab3 = st.tabs(["주가 정보", "펀더멘탈 지표", "재무 정보"])
+                    with tab1 : #주가 정보 탭
+                        st.subheader("Price Information")
 
-                    # 시장 시점 처리
-                    date = datetime.strptime(status[:10], '%Y.%m.%d')
-                    today = stock.get_nearest_business_day_in_a_week(end_date.strftime('%Y%m%d'))
-                    today = datetime.strptime(today, '%Y%m%d')
-                    if today == date:pass
-                    else : status = today.strftime("%Y.%m.%d")+" 기준(장마감)"
+                        # 현재가, 시가, 고가, 저가, 전일 종가, 외국인소진율, 거래량, 시가총액 표시
+                        a,b,c,d = st.columns(4)
+                        st.markdown(""" <style> [data-testid="stMetricValue"] {font-size: 30px;text-align: center;} </style>""",unsafe_allow_html=True)
+                        with a: 
+                            st.metric(f"{name} ({code})", f"{stock_df.iloc[0]['종가']:,}", 
+                                        f"{stock_df.iloc[0]['종가']-stock_df.iloc[1]['종가']:,} ({stock_df.iloc[0]['등락률']:.2f}%)")
+                            st.metric('전일종가',f"{stock_df.iloc[1]['종가']:,}",f"{stock_df.iloc[1]['종가']-stock_df.iloc[2]['종가']:,}")
+                        with b:
+                            st.metric('시가',f"{stock_df.iloc[0]['시가']:,}",f"{stock_df.iloc[0]['시가']-stock_df.iloc[1]['시가']:,}")
+                            st.metric('외국인소진률',f"{stock_df.iloc[1]['한도소진률']:.2f}%",\
+                                      f"{stock_df.iloc[0]['한도소진률']-stock_df.iloc[1]['한도소진률']:.2f}%")
+                        with c:
+                            st.metric('고가',f"{stock_df.iloc[0]['고가']:,}",f"{stock_df.iloc[0]['고가']-stock_df.iloc[1]['고가']:,}")
+                            st.metric('거래량',f"{stock_df.iloc[1]['거래량']:,}",f"{stock_df.iloc[0]['거래량']-stock_df.iloc[1]['거래량']:,}")
+                        with d:
+                            st.metric('저가',f"{stock_df.iloc[0]['저가']:,}",f"{stock_df.iloc[0]['저가']-stock_df.iloc[1]['저가']:,}")
+                            temp = stock_df.iloc[0]['시가총액']
+                            st.metric('시가총액',f"{format_currency(temp)}")
 
-                    styled_text = f"<div style='text-align:right'>{status}</div>"
-                    st.markdown(styled_text, unsafe_allow_html=True)
+                        # 시장 시점 처리
+                        date = datetime.strptime(status[:10], '%Y.%m.%d')
+                        today = stock.get_nearest_business_day_in_a_week(end_date.strftime('%Y%m%d'))
+                        today = datetime.strptime(today, '%Y%m%d')
+                        if today == date:pass
+                        else : status = today.strftime("%Y.%m.%d")+" 기준(장마감)"
 
-                    # 캔들 차트     
-                    fig = plot_candle(stock_df)
-                    st.plotly_chart(fig)
-                    st.divider()
+                        styled_text = f"<div style='text-align:right'>{status}</div>"
+                        st.markdown(styled_text, unsafe_allow_html=True)
 
-                with tab2 : #펀더멘탈 탭
-                    st.subheader("Valuation Information")
-                    try : lock, pay = dividend(code, end_date.strftime("%Y%m%d"))
-                    except : pay , lock = "-" , "-"
-                    
-                    # PER, PBR, BPS, EPS, DIV, DPS, 다음배당락일, 다음지불일 표시
-                    a,b,c,d = st.columns(4)
-                    with a: 
-                        st.metric('PER(배)',f"{stock_df.iloc[0]['PER']:.2f}",f"{stock_df.iloc[0]['PER']-stock_df.iloc[1]['PER']:.2f}")
-                        st.metric('DIV(%)',f"{stock_df.iloc[0]['DIV']:.2f}%",f"{stock_df.iloc[0]['DIV']-stock_df.iloc[1]['DIV']:.2f}")
-                    with b: 
-                        st.metric('PBR(배)',f"{stock_df.iloc[0]['PBR']:.2f}",f"{stock_df.iloc[0]['PBR']-stock_df.iloc[1]['PBR']:.2f}")
-                        st.metric('DPS(원)',f"{stock_df.iloc[0]['DPS']:,}",f"{stock_df.iloc[0]['DPS']-stock_df.iloc[1]['DPS']:.2f}")
-                    with c: 
-                        st.metric('BPS(원)',f"{stock_df.iloc[0]['BPS']:,}",f"{stock_df.iloc[0]['BPS']-stock_df.iloc[1]['BPS']:,}")
-                        st.metric('다음배당락일',f"{lock if lock != '20230000' else '-'}")
-                    with d: 
-                        st.metric('EPS(원)',f"{stock_df.iloc[0]['EPS']:,}",f"{stock_df.iloc[0]['EPS']-stock_df.iloc[1]['EPS']:,}")
-                        st.metric('다음지불일',f"{pay if pay != '20230000' else '-'}")
-                    
-                    # 펀더멘탈 정보 플랏팅(시각화)
-                    with st.container():
-                        # 2행 3열의 서브플롯 생성
-                        fig = sp.make_subplots(rows=2, cols=3,subplot_titles=("PER","BPS","DIV","PBR","EPS","DPS"))
-
-                        graph = go.Scatter(x=stock_df.index, y=stock_df['PER'], mode='lines', name='PER');fig.add_trace(graph, row=1, col=1)
-                        graph = go.Scatter(x=stock_df.index, y=stock_df['BPS'], mode='lines', name='BPS');fig.add_trace(graph, row=1, col=2)
-                        graph = go.Scatter(x=stock_df.index, y=stock_df['DIV'], mode='lines', name='DIV');fig.add_trace(graph, row=1, col=3)
-                        graph = go.Scatter(x=stock_df.index, y=stock_df['PBR'], mode='lines', name='PBR');fig.add_trace(graph, row=2, col=1)
-                        graph = go.Scatter(x=stock_df.index, y=stock_df['EPS'], mode='lines', name='EPS');fig.add_trace(graph, row=2, col=2)
-                        graph = go.Scatter(x=stock_df.index, y=stock_df['DPS'], mode='lines', name='DPS');fig.add_trace(graph, row=2, col=3)
-
-                        fig.update_layout(margin=dict(t=20), legend=dict(orientation='h'))
+                        # 캔들 차트     
+                        fig = plot_candle(stock_df)
                         st.plotly_chart(fig)
-                    st.divider()
+                        st.divider()
 
-                with tab3 : #재무정보 탭
-                    st.subheader("Financial Information")
-                    finance_df = finance_df.rename(columns={'ROE(지배주주)': "ROE"})
-                    finance_df = finance_df.astype(float)
-                    # 재무정보 표시 : 매출액/영업이익/당기순이익/영업이익률/순이익률/ROE/부채비율/당좌비율/유보율
-                    with st.container(): st.dataframe(finance_df,use_container_width=True)
-                    finance_df.index = [f'{i[2:4]}년 {i[5:7]}월' for i in finance_df.index]
+                    with tab2 : #펀더멘탈 탭
+                        st.subheader("Valuation Information")
+                        try : lock, pay = dividend(code, end_date.strftime("%Y%m%d"))
+                        except : pay , lock = "-" , "-"
 
-                    # 매출액/영업이익/당기순이익 과 영업이익률/순이익률/ROE 와 부채비율/당좌비율/유보율를 탭으로 나누어 시각화
-                    tab11, tab22, tab33 = st.tabs(["매출액/영업이익/당기순이익", "영업이익률/순이익률/ROE", "부채비율/당좌비율/유보율"])
-                    with tab11 : 
-                        fig1 = make_subplots(rows=1, cols=1)
-                        for name in ['매출액','영업이익', '당기순이익']:
-                            fig1.add_trace(go.Bar(x=finance_df.index, y=finance_df[name], name=name),row=1, col=1) # 바차트 생성
-                        fig1.update_layout(yaxis_title='단위(억)', height=300, margin=dict(t=0,b=0))
-                        st.plotly_chart(fig1)
-                    with tab22 : 
-                        fig2 = make_subplots(rows=1, cols=1)
-                        for name in ['영업이익률','순이익률', 'ROE']:
-                            fig2.add_trace(go.Bar(x=finance_df.index, y=finance_df[name], name=name),row=1, col=1) # 바차트 생성
-                        fig2.update_layout(yaxis_title='단위(%)', height=300, margin=dict(t=0,b=0))
-                        st.plotly_chart(fig2)                  
-                    with tab33 : 
-                        fig3 = make_subplots(rows=1, cols=3) 
-                        for i, name in enumerate(['부채비율','당좌비율', '유보율']):
-                            fig3.add_trace(go.Bar(x=finance_df.index, y=finance_df[name], name=name),row=1, col=i+1) # 바차트 생성
-                        fig3.update_layout(yaxis_title='단위(%)', height=300, margin=dict(t=0,b=0))
-                        st.plotly_chart(fig3)                   
+                        # PER, PBR, BPS, EPS, DIV, DPS, 다음배당락일, 다음지불일 표시
+                        a,b,c,d = st.columns(4)
+                        with a: 
+                            st.metric('PER(배)',f"{stock_df.iloc[0]['PER']:.2f}",f"{stock_df.iloc[0]['PER']-stock_df.iloc[1]['PER']:.2f}")
+                            st.metric('DIV(%)',f"{stock_df.iloc[0]['DIV']:.2f}%",f"{stock_df.iloc[0]['DIV']-stock_df.iloc[1]['DIV']:.2f}")
+                        with b: 
+                            st.metric('PBR(배)',f"{stock_df.iloc[0]['PBR']:.2f}",f"{stock_df.iloc[0]['PBR']-stock_df.iloc[1]['PBR']:.2f}")
+                            st.metric('DPS(원)',f"{stock_df.iloc[0]['DPS']:,}",f"{stock_df.iloc[0]['DPS']-stock_df.iloc[1]['DPS']:.2f}")
+                        with c: 
+                            st.metric('BPS(원)',f"{stock_df.iloc[0]['BPS']:,}",f"{stock_df.iloc[0]['BPS']-stock_df.iloc[1]['BPS']:,}")
+                            st.metric('다음배당락일',f"{lock if lock != '20230000' else '-'}")
+                        with d: 
+                            st.metric('EPS(원)',f"{stock_df.iloc[0]['EPS']:,}",f"{stock_df.iloc[0]['EPS']-stock_df.iloc[1]['EPS']:,}")
+                            st.metric('다음지불일',f"{pay if pay != '20230000' else '-'}")
 
-                    st.divider()
-                    
-                filtered_news_df, new_event_dict = news(search, event, start_date.strftime("%Y%m%d"),\
-                                                        end_date.strftime("%Y%m%d"), event_dict , page_num = page_num)
-                n_print = news_print(filtered_news_df, name, event_dict, intersect ,top_n = 3)
+                        # 펀더멘탈 정보 플랏팅(시각화)
+                        with st.container():
+                            # 2행 3열의 서브플롯 생성
+                            fig = sp.make_subplots(rows=2, cols=3,subplot_titles=("PER","BPS","DIV","PBR","EPS","DPS"))
+
+                            graph = go.Scatter(x=stock_df.index, y=stock_df['PER'], mode='lines', name='PER');fig.add_trace(graph, row=1, col=1)
+                            graph = go.Scatter(x=stock_df.index, y=stock_df['BPS'], mode='lines', name='BPS');fig.add_trace(graph, row=1, col=2)
+                            graph = go.Scatter(x=stock_df.index, y=stock_df['DIV'], mode='lines', name='DIV');fig.add_trace(graph, row=1, col=3)
+                            graph = go.Scatter(x=stock_df.index, y=stock_df['PBR'], mode='lines', name='PBR');fig.add_trace(graph, row=2, col=1)
+                            graph = go.Scatter(x=stock_df.index, y=stock_df['EPS'], mode='lines', name='EPS');fig.add_trace(graph, row=2, col=2)
+                            graph = go.Scatter(x=stock_df.index, y=stock_df['DPS'], mode='lines', name='DPS');fig.add_trace(graph, row=2, col=3)
+
+                            fig.update_layout(margin=dict(t=20), legend=dict(orientation='h'))
+                            st.plotly_chart(fig)
+                        st.divider()
+
+                    with tab3 : #재무정보 탭
+                        st.subheader("Financial Information")
+                        finance_df = finance_df.rename(columns={'ROE(지배주주)': "ROE"})
+                        finance_df = finance_df.astype(float)
+                        # 재무정보 표시 : 매출액/영업이익/당기순이익/영업이익률/순이익률/ROE/부채비율/당좌비율/유보율
+                        with st.container(): st.dataframe(finance_df,use_container_width=True)
+                        finance_df.index = [f'{i[2:4]}년 {i[5:7]}월' for i in finance_df.index]
+
+                        # 매출액/영업이익/당기순이익 과 영업이익률/순이익률/ROE 와 부채비율/당좌비율/유보율를 탭으로 나누어 시각화
+                        tab11, tab22, tab33 = st.tabs(["매출액/영업이익/당기순이익", "영업이익률/순이익률/ROE", "부채비율/당좌비율/유보율"])
+                        with tab11 : 
+                            fig1 = make_subplots(rows=1, cols=1)
+                            for name in ['매출액','영업이익', '당기순이익']:
+                                fig1.add_trace(go.Bar(x=finance_df.index, y=finance_df[name], name=name),row=1, col=1) # 바차트 생성
+                            fig1.update_layout(yaxis_title='단위(억)', height=300, margin=dict(t=0,b=0))
+                            st.plotly_chart(fig1)
+                        with tab22 : 
+                            fig2 = make_subplots(rows=1, cols=1)
+                            for name in ['영업이익률','순이익률', 'ROE']:
+                                fig2.add_trace(go.Bar(x=finance_df.index, y=finance_df[name], name=name),row=1, col=1) # 바차트 생성
+                            fig2.update_layout(yaxis_title='단위(%)', height=300, margin=dict(t=0,b=0))
+                            st.plotly_chart(fig2)                  
+                        with tab33 : 
+                            fig3 = make_subplots(rows=1, cols=3) 
+                            for i, name in enumerate(['부채비율','당좌비율', '유보율']):
+                                fig3.add_trace(go.Bar(x=finance_df.index, y=finance_df[name], name=name),row=1, col=i+1) # 바차트 생성
+                            fig3.update_layout(yaxis_title='단위(%)', height=300, margin=dict(t=0,b=0))
+                            st.plotly_chart(fig3)                   
+                        st.divider()
+        except : st.warning("기간이 너무 짧아 주가 정보를 불러올 수 없습니다.")
+                
+        filtered_news_df, new_event_dict = news(search, event, start_date.strftime("%Y%m%d"),\
+                                                end_date.strftime("%Y%m%d"), event_dict , page_num = page_num)
+        n_print = news_print(filtered_news_df, name, event_dict, intersect ,top_n = 3)
 
 
     # 이벤트 설명 및 뉴스사례 검색의 경우
