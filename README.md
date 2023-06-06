@@ -8,9 +8,10 @@
 
 폴더구조
 
-- data 폴더
+- data 폴더 : 구축한 데이터 베이스 폴더
     - info.json : 코스피 200 종목 사전, 이벤트 사전 정보
     - 배당.csv : 배당관련 정보 데이터
+- gif 폴더 : README.md 에 들어갈 Gif파일을 담은 폴더
 - user_funtions 폴더 : Main에서 사용할 함수들을 담은 코드 폴더
     - Database_Input.py : 데이터불러오고 인풋을 받는 함수들을 구현한 코드
     - Markowitz_Portfolio.py : 포트폴리오 이론 관련 함수들을 구현한 코드
@@ -21,6 +22,7 @@
 - Samsung_Securities_Database.ipynb (데이터 베이스 구축 코드파일)
 - Samsung_Securities_Project_Main.py (Streamlit Main파일)
 - Readme.md : 본 파일
+- 삼성증권 디지털기술팀 4조 발표자료.ppt : 발표자료
 
 ### 스트림릿 기능 간단 설명
 
