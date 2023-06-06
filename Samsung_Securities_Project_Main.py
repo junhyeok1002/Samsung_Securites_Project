@@ -475,7 +475,7 @@ if __name__ == "__main__":
         
         # 포트폴리오 추천탭 예외 처리
         except Exception as e : 
-            st.warning(e)
+            st.warning(str(e))
     
     # Streamlit 흐름 제어를 위한 부분
     elif case == 'blank':
