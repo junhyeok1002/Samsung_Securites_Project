@@ -39,13 +39,13 @@
         1. ex) 삼성전자의 신제품관련 이벤트를 알려줘 
         2. ex) 한섬, 삼성전자의 주가 이벤트를 정리해줘
         
-        ![Untitled](Untitled.png)
+        ![Untitled](/gif/KakaoTalk_20230606_214030780.gif)
         
     1. 이벤트 용어 검색 기능
     - 모르는 금융용어를 설명과 뉴스사례들과 함께 제시함으로써 금융지식 함양에 도움이 되는 기능
         1. ex) 당기순이익, 영업이익, 부채비율이 뭐야?
         
-        ![Untitled](Untitled%201.png)
+        ![Untitled](/gif/KakaoTalk_20230606_214030780_01.gif)
         
     1. 포트폴리오 백테스팅 및 markowitz portfolio theory기반 추천 기능
     - 일반인이 접근하기 어려운 백테스팅 기능과 개인의 리스크 선호(기피)도에 기반한 맞춤형 포트폴리오 추천하는 기능
@@ -53,7 +53,7 @@
         
         (추가로 슬라이브 바에 포트폴리오 비중, 리스크 선호도를 입력하기)
         
-        ![Untitled](Untitled%202.png)
+        ![Untitled](/gif/KakaoTalk_20230606_214536939.gif)
         
     
 
