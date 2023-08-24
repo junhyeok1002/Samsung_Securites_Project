@@ -212,24 +212,26 @@ def news(search, event, ds,de, event_dict ,page_num = 3):
         # 각 기사 html get하기
         news = requests.get(i, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102"})
         news_html = BeautifulSoup(news.text, "html.parser")
-
+        
+        
         # 뉴스 제목 가져오기
         title = news_html.select_one("#ct > div.media_end_head.go_trans > div.media_end_head_title > h2")
         if title is None:
             title = news_html.select_one("#content > div.end_ct > div > h2")
 
+        
         # 뉴스 본문 가져오기
-        content = news_html.select("div#dic_area")
+        content = news_html.select("div#dic_area") # article#div_area
         if not content:
             content = news_html.select("#articeBody")
+        
             
         # 기사 텍스트만 가져오기 + 줄바꿈 처리
         content = ''.join(str(content))
         content = re.sub('([\s]{2,})', '', content)
         content = content.replace('<br/>','\n\n')
         content = re.sub('([~])', r'\\\1', content)
-        
-        
+ 
         # html 태그 제거 및 텍스트 다듬기
         pattern1 = '<[^>]*>'
         title = re.sub(pattern=pattern1, repl='', string=str(title))
@@ -280,7 +282,7 @@ def news(search, event, ds,de, event_dict ,page_num = 3):
             temp_df.index = range(len(temp_df))
             temp_df = temp_df.to_dict()
             new_event_dict[event] = temp_df
-
+    
     return filtered_news_df, new_event_dict
 
 # 뉴스 기사에서 이벤트 키워드를 하이라이팅하는 코드
